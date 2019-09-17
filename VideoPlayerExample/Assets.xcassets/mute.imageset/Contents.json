@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "mute~universal.pdf",
-      "idiom" : "universal"
+      "idiom" : "universal",
+      "filename" : "mute~universal.pdf"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
