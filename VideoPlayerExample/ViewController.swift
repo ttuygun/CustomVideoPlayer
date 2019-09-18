@@ -44,27 +44,27 @@ class ViewController: UIViewController {
         playPauseButton.alpha = 0.5
         
         NotificationCenter.default.addObserver(self,
-                                               selector:#selector(self.playerDidFinishPlaying),
+                                               selector: #selector(self.playerDidFinishPlaying),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
     }
-    
-    @objc func playerDidFinishPlaying() {
-        print("Video Finished")
-        isVideoFinished = true
-        
-        playPauseButton.setImage(UIImage(named: "replay"), for: .normal)
-        playPauseButton.isHidden = false
-       
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
-    @objc func videoPlayerDidClicked() {
+    @objc private func playerDidFinishPlaying() {
+        isVideoFinished = true
+        playPauseButton.setImage(UIImage(named: "replay"), for: .normal)
+        playPauseButton.isHidden = false
+        isVideoPlaying = false
+    }
+    
+    @objc private func videoPlayerDidClicked() {
         if !isVideoElementsShowed {
-            self.playPauseButton.isHidden = false
-            self.playerBottomView.isHidden = false
+            decideHidingBottomViewAndPlayPauseButton(state: false)
             DispatchQueue.main.asyncAfter(deadline: .now() +  3, execute: {
-                self.playPauseButton.isHidden = true
-                self.playerBottomView.isHidden = true
+                self.decideHidingBottomViewAndPlayPauseButton(state: true)
                 self.isVideoElementsShowed = false
             })
         }
@@ -78,15 +78,13 @@ class ViewController: UIViewController {
 
     @IBAction private func playButtonClicked(_ sender: UIButton) {
         if isVideoFinished {
-//            player.seek(to: CMTime.zero)
-//            player.play()
-
-            
-            player.seek(to: CMTime.zero) { (seek) in
-                print(seek)
-                self.player.play()
-                self.isVideoFinished = false
-
+            player.seek(to: .zero) { (completed) in
+                if completed {
+                    self.player.play()
+                    self.isVideoFinished = false
+                    self.isVideoPlaying = true
+                    self.decideHidingBottomViewAndPlayPauseButton(state: true)
+                }
             }
         }
         
@@ -94,24 +92,23 @@ class ViewController: UIViewController {
             player.pause()
             playPauseButton.setImage(UIImage(named: "play"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
-            playPauseButton.isHidden = false
-            self.playerBottomView.isHidden = false
+            self.decideHidingBottomViewAndPlayPauseButton(state: false)
 
         } else {
-            player.playImmediately(atRate: 50)
+            player.play()
             playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.playPauseButton.isHidden = true
-                self.playerBottomView.isHidden = true
+                self.decideHidingBottomViewAndPlayPauseButton(state: true)
             }
     
         }
         isVideoPlaying = !isVideoPlaying
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        to do...
+    private func decideHidingBottomViewAndPlayPauseButton(state: Bool) {
+        self.playPauseButton.isHidden = state
+        self.playerBottomView.isHidden = state
     }
     
     @IBAction private func muteButtonClicked(_ sender: UIButton) {
@@ -125,4 +122,3 @@ class ViewController: UIViewController {
         isVideoMuted = !isVideoMuted
     }
 }
-
