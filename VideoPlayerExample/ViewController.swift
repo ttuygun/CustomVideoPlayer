@@ -23,11 +23,7 @@ class ViewController: UIViewController {
     
     var isVideoPlaying = false
     var isVideoMuted = false
-    var isVideoElementsShowed = false
     var isVideoFinished = false
-    
-    var timer: Timer?
-    var seconds = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,37 +63,10 @@ class ViewController: UIViewController {
         // show controls
         decideHidingBottomViewAndPlayPauseButton(state: false)
         
-//        if isVideoPlaying {
-//            timer?.invalidate()
-//        }
-//        seconds = 0
-        
-//        if !isVideoPlaying {
-//            seconds = 0
-//            timer?.invalidate()
-//        }
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
-//        seconds = 0
-//        timer?.invalidate()
-        
         if isVideoPlaying {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                 self.decideHidingBottomViewAndPlayPauseButton(state: true)
             })
-        }
-    }
-    
-    @objc func runTimedCode() {
-        seconds += 1
-        print(seconds)
-        if seconds > 2 {
-            if self.isVideoPlaying {
-                print("Dispath..isVideoPlaying=\(self.isVideoPlaying)")
-                self.decideHidingBottomViewAndPlayPauseButton(state: true)
-                timer?.invalidate()
-                seconds = 0
-            }
         }
     }
     
@@ -123,23 +92,16 @@ class ViewController: UIViewController {
             player.pause()
             playPauseButton.setImage(UIImage(named: "play"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
-
             isVideoPlaying = false
-            print("isVideoPlaying set to false")
         } else {
             player.play()
             playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.decideHidingBottomViewAndPlayPauseButton(state: true)
-//                self.isVideoElementsShowed = false
             }
-            
             isVideoPlaying = true
-            print("isVideoPlaying set to true")
-//            isVideoElementsShowed = true
         }
-//        isVideoPlaying = !isVideoPlaying
     }
 
     private func decideHidingBottomViewAndPlayPauseButton(state: Bool) {
@@ -150,11 +112,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func muteButtonClicked(_ sender: UIButton) {
-        if !isVideoMuted {
-            player.isMuted = true
+        if isVideoMuted {
+            player.isMuted = false
             sender.setImage(UIImage(named: "mute"), for: .normal)
         } else {
-            player.isMuted = false
+            player.isMuted = true
             sender.setImage(UIImage(named: "sound"), for: .normal)
         }
         isVideoMuted = !isVideoMuted
