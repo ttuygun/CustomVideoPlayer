@@ -105,12 +105,12 @@ class ViewController: UIViewController {
         }
         isVideoPlaying = !isVideoPlaying
     }
-    
+
     private func decideHidingBottomViewAndPlayPauseButton(state: Bool) {
         self.playPauseButton.isHidden = state
         self.playerBottomView.isHidden = state
     }
-    
+
     @IBAction private func muteButtonClicked(_ sender: UIButton) {
         if !isVideoMuted {
             player.isMuted = true
