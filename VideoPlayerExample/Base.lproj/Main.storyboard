@@ -74,11 +74,12 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="ika-2V-678" secondAttribute="height" multiplier="207:25" constant="155" id="O4X-2y-nxt"/>
+                                            <constraint firstAttribute="width" secondItem="ika-2V-678" secondAttribute="height" multiplier="207:25" priority="750" constant="155" id="O4X-2y-nxt"/>
                                             <constraint firstItem="GcX-vd-fJC" firstAttribute="leading" secondItem="ika-2V-678" secondAttribute="leading" constant="5" id="PTm-Nc-4XZ"/>
                                             <constraint firstAttribute="bottom" secondItem="GcX-vd-fJC" secondAttribute="bottom" constant="5" id="Seo-Rl-8aX"/>
                                             <constraint firstItem="KNL-KN-Yrs" firstAttribute="leading" secondItem="ika-2V-678" secondAttribute="leading" id="Zgq-CW-XiI"/>
                                             <constraint firstAttribute="trailing" secondItem="KNL-KN-Yrs" secondAttribute="trailing" id="blc-4K-CIi"/>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="bq1-Lf-heA"/>
                                             <constraint firstAttribute="bottom" secondItem="KNL-KN-Yrs" secondAttribute="bottom" id="fau-D5-2se"/>
                                             <constraint firstItem="KNL-KN-Yrs" firstAttribute="top" secondItem="ika-2V-678" secondAttribute="top" id="gXz-FL-dgY"/>
                                             <constraint firstItem="GcX-vd-fJC" firstAttribute="top" secondItem="ika-2V-678" secondAttribute="top" constant="5" id="x0a-rm-ioZ"/>
