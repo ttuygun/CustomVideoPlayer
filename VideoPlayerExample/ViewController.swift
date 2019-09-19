@@ -70,6 +70,8 @@ class ViewController: UIViewController {
         playPauseButton.setImage(UIImage(named: "replay"), for: .normal)
         playPauseButton.isHidden = false
         isVideoPlaying = false
+        slowerLabel.text = ""
+        fasterLabel.text = ""
     }
     
     @objc private func videoPlayerDidClicked() {
@@ -150,17 +152,27 @@ class ViewController: UIViewController {
     @IBAction private func fasterButtonClicked(_ sender: UIButton) {
         if isVideoPlaying {
             seconds = 0
-            playRate *= 2
-            
-            if playRate < 1 {
-                slowerLabel.text = "-\(playRate)x"
+            if playRate >= 8 {
+                playRate = 1
+                slowerLabel.text = ""
                 fasterLabel.text = ""
+            } else if playRate < 1 {
+                playRate += 0.25
+                if playRate == 1 {
+                    slowerLabel.text = ""
+                    fasterLabel.text = ""
+                } else {
+                    slowerLabel.text = "-\(1 - playRate)x"
+                    fasterLabel.text = ""
+                }
             } else if playRate > 1 {
+                playRate *= 2
                 fasterLabel.text = "\(playRate)x"
                 slowerLabel.text = ""
-            } else {
+            } else if playRate == 1 {
+                playRate *= 2
+                fasterLabel.text = "\(playRate)x"
                 slowerLabel.text = ""
-                fasterLabel.text = ""
             }
             
             player.playImmediately(atRate: playRate)
@@ -170,20 +182,38 @@ class ViewController: UIViewController {
     @IBAction private func slowerButtonClicked(_ sender: UIButton) {
         if isVideoPlaying {
             seconds = 0
-            playRate /= 2
             
-            if playRate > 1 {
+            print(playRate)
+            if playRate <= 0.25 {
+                isVideoPlaying = true
                 slowerLabel.text = ""
-                fasterLabel.text = "\(playRate)x"
+                fasterLabel.text = ""
+                self.decideHidingBottomViewAndPlayPauseButton(state: true)
+                playRate = 1
+                player.playImmediately(atRate: playRate)
+            } else if playRate > 1 {
+                playRate /= 2
+                slowerLabel.text = ""
+                if playRate == 1 {
+                    fasterLabel.text = ""
+                } else {
+                    fasterLabel.text = "\(playRate)x"
+                }
+                
+                player.playImmediately(atRate: playRate)
             } else if playRate < 1 {
+                playRate -= 0.25
                 fasterLabel.text = ""
-                slowerLabel.text = "-\(playRate)x"
-            } else {
-                slowerLabel.text = ""
+                slowerLabel.text = "-\(1 - playRate)x"
+                player.playImmediately(atRate: playRate)
+            } else if playRate == 1 {
+                playRate = 0.75
+                slowerLabel.text = "-\(1 - playRate)x"
                 fasterLabel.text = ""
+                player.playImmediately(atRate: playRate)
             }
             
-            player.playImmediately(atRate: playRate)
+            print("playRate=\(playRate)")
         }
     }
 }
