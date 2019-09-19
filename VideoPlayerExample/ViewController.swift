@@ -25,6 +25,9 @@ class ViewController: UIViewController {
     var isVideoMuted = false
     var isVideoFinished = false
     
+    var timer: Timer?
+    var seconds = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -46,6 +49,8 @@ class ViewController: UIViewController {
                                                selector: #selector(self.playerDidFinishPlaying),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
 
     deinit {
@@ -62,13 +67,22 @@ class ViewController: UIViewController {
     @objc private func videoPlayerDidClicked() {
         // show controls
         decideHidingBottomViewAndPlayPauseButton(state: false)
-        
-        if isVideoPlaying {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                self.decideHidingBottomViewAndPlayPauseButton(state: true)
-            })
-        }
+
+        seconds = 0
     }
+    
+    @objc func runTimedCode() {
+        print(seconds)
+        if seconds == 3 {
+            if self.isVideoPlaying {
+                self.decideHidingBottomViewAndPlayPauseButton(state: true)
+                self.seconds = 0
+                self.timer?.invalidate()
+            }
+        }
+        seconds += 1
+    }
+
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -93,13 +107,14 @@ class ViewController: UIViewController {
             playPauseButton.setImage(UIImage(named: "play"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
             isVideoPlaying = false
+            seconds = 0
+            timer?.invalidate()
         } else {
             player.play()
             playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.decideHidingBottomViewAndPlayPauseButton(state: true)
-            }
+            seconds = 0
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
             isVideoPlaying = true
         }
     }
@@ -120,5 +135,6 @@ class ViewController: UIViewController {
             sender.setImage(UIImage(named: "mute"), for: .normal)
         }
         isVideoMuted = !isVideoMuted
+        seconds = 0
     }
 }
