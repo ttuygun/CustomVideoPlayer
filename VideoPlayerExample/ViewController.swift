@@ -114,10 +114,10 @@ class ViewController: UIViewController {
     @IBAction private func muteButtonClicked(_ sender: UIButton) {
         if isVideoMuted {
             player.isMuted = false
-            sender.setImage(UIImage(named: "mute"), for: .normal)
+            sender.setImage(UIImage(named: "sound"), for: .normal)
         } else {
             player.isMuted = true
-            sender.setImage(UIImage(named: "sound"), for: .normal)
+            sender.setImage(UIImage(named: "mute"), for: .normal)
         }
         isVideoMuted = !isVideoMuted
     }
