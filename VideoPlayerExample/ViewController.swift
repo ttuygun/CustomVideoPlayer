@@ -18,6 +18,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomPlayPauseButton: UIButton!
     @IBOutlet weak var playerBottomView: UIView!
     
+    @IBOutlet weak var fasterLabel: UILabel!
+    @IBOutlet weak var slowerLabel: UILabel!
+    
+    var playRate: Float = 1
+    
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
     
@@ -51,6 +56,9 @@ class ViewController: UIViewController {
                                                object: player.currentItem)
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+        
+        fasterLabel.text = ""
+        slowerLabel.text = ""
     }
 
     deinit {
@@ -127,6 +135,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func muteButtonClicked(_ sender: UIButton) {
+        seconds = 0
         if isVideoMuted {
             player.isMuted = false
             sender.setImage(UIImage(named: "sound"), for: .normal)
@@ -136,5 +145,45 @@ class ViewController: UIViewController {
         }
         isVideoMuted = !isVideoMuted
         seconds = 0
+    }
+    
+    @IBAction private func fasterButtonClicked(_ sender: UIButton) {
+        if isVideoPlaying {
+            seconds = 0
+            playRate *= 2
+            
+            if playRate < 1 {
+                slowerLabel.text = "-\(playRate)x"
+                fasterLabel.text = ""
+            } else if playRate > 1 {
+                fasterLabel.text = "\(playRate)x"
+                slowerLabel.text = ""
+            } else {
+                slowerLabel.text = ""
+                fasterLabel.text = ""
+            }
+            
+            player.playImmediately(atRate: playRate)
+        }
+    }
+    
+    @IBAction private func slowerButtonClicked(_ sender: UIButton) {
+        if isVideoPlaying {
+            seconds = 0
+            playRate /= 2
+            
+            if playRate > 1 {
+                slowerLabel.text = ""
+                fasterLabel.text = "\(playRate)x"
+            } else if playRate < 1 {
+                fasterLabel.text = ""
+                slowerLabel.text = "-\(playRate)x"
+            } else {
+                slowerLabel.text = ""
+                fasterLabel.text = ""
+            }
+            
+            player.playImmediately(atRate: playRate)
+        }
     }
 }
