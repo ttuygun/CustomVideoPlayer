@@ -46,18 +46,58 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OIu-NO-wld">
-                                                            <rect key="frame" x="305" y="5" width="104" height="21.5"/>
+                                                            <rect key="frame" x="290" y="0.0" width="119" height="31.5"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgG-fX-bKO">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="21.5" height="21.5"/>
-                                                                    <state key="normal" image="slower"/>
-                                                                </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jco-g0-K5A">
-                                                                    <rect key="frame" x="41.5" y="0.0" width="21" height="21.5"/>
-                                                                    <state key="normal" image="faster"/>
-                                                                </button>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ApP-YK-cw2">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="24" height="31.5"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MY4-I8-vkD">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="24" height="7.5"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="MY4-I8-vkD" secondAttribute="height" multiplier="4:1.25" id="Rql-aA-vLQ"/>
+                                                                            </constraints>
+                                                                            <fontDescription key="fontDescription" type="system" weight="black" pointSize="7"/>
+                                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgG-fX-bKO">
+                                                                            <rect key="frame" x="0.0" y="7.5" width="24" height="24"/>
+                                                                            <state key="normal" image="slower"/>
+                                                                            <connections>
+                                                                                <action selector="slowerButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6fg-hc-pTJ"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="CgG-fX-bKO" firstAttribute="width" secondItem="CgG-fX-bKO" secondAttribute="height" multiplier="1:1" id="yMq-iH-bWe"/>
+                                                                    </constraints>
+                                                                </stackView>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="psN-Wm-jp8">
+                                                                    <rect key="frame" x="44" y="0.0" width="23.5" height="31.5"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEP-Fb-V1I">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="23.5" height="7.5"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" secondItem="JEP-Fb-V1I" secondAttribute="height" multiplier="4:1.25" id="B1r-5u-dQQ"/>
+                                                                            </constraints>
+                                                                            <fontDescription key="fontDescription" type="system" weight="black" pointSize="7"/>
+                                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jco-g0-K5A">
+                                                                            <rect key="frame" x="0.0" y="7.5" width="23.5" height="24"/>
+                                                                            <state key="normal" image="faster"/>
+                                                                            <connections>
+                                                                                <action selector="fasterButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeE-py-WQK"/>
+                                                                            </connections>
+                                                                        </button>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="Jco-g0-K5A" firstAttribute="width" secondItem="Jco-g0-K5A" secondAttribute="height" multiplier="1:1" id="jcc-en-i6l"/>
+                                                                    </constraints>
+                                                                </stackView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5O-l0-YGg">
-                                                                    <rect key="frame" x="82.5" y="0.0" width="21.5" height="21.5"/>
+                                                                    <rect key="frame" x="87.5" y="0.0" width="31.5" height="31.5"/>
                                                                     <state key="normal" image="sound"/>
                                                                     <connections>
                                                                         <action selector="muteButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ieG-T9-GbS"/>
@@ -66,15 +106,13 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="e5O-l0-YGg" firstAttribute="width" secondItem="e5O-l0-YGg" secondAttribute="height" multiplier="1:1" id="RvU-Qt-keH"/>
-                                                                <constraint firstItem="CgG-fX-bKO" firstAttribute="width" secondItem="CgG-fX-bKO" secondAttribute="height" multiplier="1:1" id="eBA-Tb-VHw"/>
-                                                                <constraint firstItem="Jco-g0-K5A" firstAttribute="width" secondItem="Jco-g0-K5A" secondAttribute="height" multiplier="1:1" id="ioA-dL-2nL"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="OIu-NO-wld" secondAttribute="trailing" constant="5" id="Sl3-av-ngG"/>
-                                                        <constraint firstItem="OIu-NO-wld" firstAttribute="top" secondItem="A08-0p-wDd" secondAttribute="top" constant="5" id="stk-0O-gBh"/>
-                                                        <constraint firstAttribute="bottom" secondItem="OIu-NO-wld" secondAttribute="bottom" constant="5" id="uEE-Vr-6VF"/>
+                                                        <constraint firstItem="OIu-NO-wld" firstAttribute="top" secondItem="A08-0p-wDd" secondAttribute="top" id="stk-0O-gBh"/>
+                                                        <constraint firstAttribute="bottom" secondItem="OIu-NO-wld" secondAttribute="bottom" id="uEE-Vr-6VF"/>
                                                     </constraints>
                                                 </view>
                                                 <blurEffect style="dark"/>
@@ -128,8 +166,10 @@
                     </view>
                     <connections>
                         <outlet property="bottomPlayPauseButton" destination="GcX-vd-fJC" id="N5L-4A-L4C"/>
+                        <outlet property="fasterLabel" destination="JEP-Fb-V1I" id="fbz-5K-rrb"/>
                         <outlet property="playPauseButton" destination="cJY-ZD-rcq" id="IW6-Wu-7Fr"/>
                         <outlet property="playerBottomView" destination="ika-2V-678" id="5Q9-NP-Jz2"/>
+                        <outlet property="slowerLabel" destination="MY4-I8-vkD" id="781-TP-tKj"/>
                         <outlet property="videoPlayerView" destination="bwD-J5-fgy" id="8xP-E5-me2"/>
                         <outlet property="videoView" destination="7aO-lF-4P7" id="f5F-Cr-xGh"/>
                     </connections>
