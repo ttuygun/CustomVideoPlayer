@@ -63,6 +63,7 @@ class ViewController: UIViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
     }
     
     @objc private func playerDidFinishPlaying() {
