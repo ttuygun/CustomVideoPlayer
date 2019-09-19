@@ -45,19 +45,36 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="31.5"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5O-l0-YGg">
-                                                            <rect key="frame" x="388" y="5" width="21" height="21"/>
-                                                            <state key="normal" image="sound"/>
-                                                            <connections>
-                                                                <action selector="muteButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ieG-T9-GbS"/>
-                                                            </connections>
-                                                        </button>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OIu-NO-wld">
+                                                            <rect key="frame" x="305" y="5" width="104" height="21.5"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgG-fX-bKO">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="21.5" height="21.5"/>
+                                                                    <state key="normal" image="slower"/>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jco-g0-K5A">
+                                                                    <rect key="frame" x="41.5" y="0.0" width="21" height="21.5"/>
+                                                                    <state key="normal" image="faster"/>
+                                                                </button>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5O-l0-YGg">
+                                                                    <rect key="frame" x="82.5" y="0.0" width="21.5" height="21.5"/>
+                                                                    <state key="normal" image="sound"/>
+                                                                    <connections>
+                                                                        <action selector="muteButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ieG-T9-GbS"/>
+                                                                    </connections>
+                                                                </button>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="e5O-l0-YGg" firstAttribute="width" secondItem="e5O-l0-YGg" secondAttribute="height" multiplier="1:1" id="RvU-Qt-keH"/>
+                                                                <constraint firstItem="CgG-fX-bKO" firstAttribute="width" secondItem="CgG-fX-bKO" secondAttribute="height" multiplier="1:1" id="eBA-Tb-VHw"/>
+                                                                <constraint firstItem="Jco-g0-K5A" firstAttribute="width" secondItem="Jco-g0-K5A" secondAttribute="height" multiplier="1:1" id="ioA-dL-2nL"/>
+                                                            </constraints>
+                                                        </stackView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="e5O-l0-YGg" firstAttribute="top" secondItem="A08-0p-wDd" secondAttribute="top" constant="5" id="ExK-od-ics"/>
-                                                        <constraint firstItem="e5O-l0-YGg" firstAttribute="width" secondItem="e5O-l0-YGg" secondAttribute="height" multiplier="1:1" id="cNM-Ae-09N"/>
-                                                        <constraint firstAttribute="bottom" secondItem="e5O-l0-YGg" secondAttribute="bottom" constant="5" id="kbg-9W-nZL"/>
-                                                        <constraint firstAttribute="trailing" secondItem="e5O-l0-YGg" secondAttribute="trailing" constant="5" id="mwE-fa-JYV"/>
+                                                        <constraint firstAttribute="trailing" secondItem="OIu-NO-wld" secondAttribute="trailing" constant="5" id="Sl3-av-ngG"/>
+                                                        <constraint firstItem="OIu-NO-wld" firstAttribute="top" secondItem="A08-0p-wDd" secondAttribute="top" constant="5" id="stk-0O-gBh"/>
+                                                        <constraint firstAttribute="bottom" secondItem="OIu-NO-wld" secondAttribute="bottom" constant="5" id="uEE-Vr-6VF"/>
                                                     </constraints>
                                                 </view>
                                                 <blurEffect style="dark"/>
@@ -123,7 +140,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="faster" width="512" height="512"/>
         <image name="play" width="512" height="512"/>
+        <image name="slower" width="512" height="512"/>
         <image name="sound" width="512" height="512"/>
     </resources>
 </document>
