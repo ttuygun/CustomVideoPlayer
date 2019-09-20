@@ -37,22 +37,22 @@
                                         </connections>
                                     </button>
                                     <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ika-2V-678" userLabel="BottomBarView">
-                                        <rect key="frame" x="0.0" y="201.5" width="414" height="31.5"/>
+                                        <rect key="frame" x="0.0" y="199" width="414" height="34"/>
                                         <subviews>
                                             <visualEffectView opaque="NO" alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KNL-KN-Yrs">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="31.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="34"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="A08-0p-wDd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="31.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OIu-NO-wld">
-                                                            <rect key="frame" x="290" y="0.0" width="119" height="31.5"/>
+                                                            <rect key="frame" x="285" y="0.0" width="124" height="33.5"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ApP-YK-cw2">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="24" height="31.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="25.5" height="33.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MY4-I8-vkD">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="24" height="7.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="25.5" height="8"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" secondItem="MY4-I8-vkD" secondAttribute="height" multiplier="4:1.25" id="Rql-aA-vLQ"/>
                                                                             </constraints>
@@ -61,7 +61,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgG-fX-bKO">
-                                                                            <rect key="frame" x="0.0" y="7.5" width="24" height="24"/>
+                                                                            <rect key="frame" x="0.0" y="8" width="25.5" height="25.5"/>
                                                                             <state key="normal" image="slower"/>
                                                                             <connections>
                                                                                 <action selector="slowerButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6fg-hc-pTJ"/>
@@ -73,10 +73,10 @@
                                                                     </constraints>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="psN-Wm-jp8">
-                                                                    <rect key="frame" x="44" y="0.0" width="23.5" height="31.5"/>
+                                                                    <rect key="frame" x="45.5" y="0.0" width="25" height="33.5"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEP-Fb-V1I">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="23.5" height="7.5"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="8"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" secondItem="JEP-Fb-V1I" secondAttribute="height" multiplier="4:1.25" id="B1r-5u-dQQ"/>
                                                                             </constraints>
@@ -85,7 +85,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jco-g0-K5A">
-                                                                            <rect key="frame" x="0.0" y="7.5" width="23.5" height="24"/>
+                                                                            <rect key="frame" x="0.0" y="8" width="25" height="25.5"/>
                                                                             <state key="normal" image="faster"/>
                                                                             <connections>
                                                                                 <action selector="fasterButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeE-py-WQK"/>
@@ -97,7 +97,7 @@
                                                                     </constraints>
                                                                 </stackView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5O-l0-YGg">
-                                                                    <rect key="frame" x="87.5" y="0.0" width="31.5" height="31.5"/>
+                                                                    <rect key="frame" x="90.5" y="0.0" width="33.5" height="33.5"/>
                                                                     <state key="normal" image="sound"/>
                                                                     <connections>
                                                                         <action selector="muteButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ieG-T9-GbS"/>
@@ -108,9 +108,18 @@
                                                                 <constraint firstItem="e5O-l0-YGg" firstAttribute="width" secondItem="e5O-l0-YGg" secondAttribute="height" multiplier="1:1" id="RvU-Qt-keH"/>
                                                             </constraints>
                                                         </stackView>
+                                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="KFp-NL-AB1">
+                                                            <rect key="frame" x="32" y="0.0" width="250" height="34.5"/>
+                                                            <connections>
+                                                                <action selector="sliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Z5k-nZ-t3D"/>
+                                                            </connections>
+                                                        </slider>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="KFp-NL-AB1" firstAttribute="top" secondItem="A08-0p-wDd" secondAttribute="top" id="Mdy-rE-Jz1"/>
+                                                        <constraint firstItem="OIu-NO-wld" firstAttribute="leading" secondItem="KFp-NL-AB1" secondAttribute="trailing" constant="5" id="Rpt-0s-Mw2"/>
                                                         <constraint firstAttribute="trailing" secondItem="OIu-NO-wld" secondAttribute="trailing" constant="5" id="Sl3-av-ngG"/>
+                                                        <constraint firstAttribute="bottom" secondItem="KFp-NL-AB1" secondAttribute="bottom" id="UqE-eO-ykJ"/>
                                                         <constraint firstItem="OIu-NO-wld" firstAttribute="top" secondItem="A08-0p-wDd" secondAttribute="top" id="stk-0O-gBh"/>
                                                         <constraint firstAttribute="bottom" secondItem="OIu-NO-wld" secondAttribute="bottom" id="uEE-Vr-6VF"/>
                                                     </constraints>
@@ -118,7 +127,7 @@
                                                 <blurEffect style="dark"/>
                                             </visualEffectView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GcX-vd-fJC">
-                                                <rect key="frame" x="5" y="5" width="21.5" height="21.5"/>
+                                                <rect key="frame" x="5" y="5" width="24" height="24"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="GcX-vd-fJC" secondAttribute="height" multiplier="1:1" id="vdg-Um-8O5"/>
                                                 </constraints>
@@ -129,14 +138,15 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="ika-2V-678" secondAttribute="height" multiplier="207:25" priority="750" constant="155" id="O4X-2y-nxt"/>
+                                            <constraint firstAttribute="width" secondItem="ika-2V-678" secondAttribute="height" multiplier="207:27" priority="750" constant="155" id="O4X-2y-nxt"/>
                                             <constraint firstItem="GcX-vd-fJC" firstAttribute="leading" secondItem="ika-2V-678" secondAttribute="leading" constant="5" id="PTm-Nc-4XZ"/>
                                             <constraint firstAttribute="bottom" secondItem="GcX-vd-fJC" secondAttribute="bottom" constant="5" id="Seo-Rl-8aX"/>
                                             <constraint firstItem="KNL-KN-Yrs" firstAttribute="leading" secondItem="ika-2V-678" secondAttribute="leading" id="Zgq-CW-XiI"/>
                                             <constraint firstAttribute="trailing" secondItem="KNL-KN-Yrs" secondAttribute="trailing" id="blc-4K-CIi"/>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="bq1-Lf-heA"/>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="45" id="bq1-Lf-heA"/>
                                             <constraint firstAttribute="bottom" secondItem="KNL-KN-Yrs" secondAttribute="bottom" id="fau-D5-2se"/>
                                             <constraint firstItem="KNL-KN-Yrs" firstAttribute="top" secondItem="ika-2V-678" secondAttribute="top" id="gXz-FL-dgY"/>
+                                            <constraint firstItem="KFp-NL-AB1" firstAttribute="leading" secondItem="GcX-vd-fJC" secondAttribute="trailing" constant="5" id="szl-kk-a0H"/>
                                             <constraint firstItem="GcX-vd-fJC" firstAttribute="top" secondItem="ika-2V-678" secondAttribute="top" constant="5" id="x0a-rm-ioZ"/>
                                         </constraints>
                                     </view>
@@ -170,6 +180,7 @@
                         <outlet property="playPauseButton" destination="cJY-ZD-rcq" id="IW6-Wu-7Fr"/>
                         <outlet property="playerBottomView" destination="ika-2V-678" id="5Q9-NP-Jz2"/>
                         <outlet property="slowerLabel" destination="MY4-I8-vkD" id="781-TP-tKj"/>
+                        <outlet property="timeSlider" destination="KFp-NL-AB1" id="FsN-yw-qfF"/>
                         <outlet property="videoPlayerView" destination="bwD-J5-fgy" id="8xP-E5-me2"/>
                         <outlet property="videoView" destination="7aO-lF-4P7" id="f5F-Cr-xGh"/>
                     </connections>

@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var fasterLabel: UILabel!
     @IBOutlet weak var slowerLabel: UILabel!
     
+    @IBOutlet weak var timeSlider: UISlider!
+    
     var playRate: Float = 1
     
     var player: AVPlayer!
@@ -57,12 +59,36 @@ class ViewController: UIViewController {
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
         
+        
+        player.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.duration), options: [.new, .initial], context: nil)
+        addTimeObserver()
+        
         fasterLabel.text = ""
         slowerLabel.text = ""
     }
-
+    
+    private func addTimeObserver() {
+        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+        let mainQueue = DispatchQueue.main
+        player.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue, using: { [weak self] time in
+            print(time)
+            guard let currentItem = self?.player.currentItem else {
+                return
+            }
+            self?.timeSlider.maximumValue = Float(currentItem.duration.seconds)
+            self?.timeSlider.minimumValue = 0
+            self?.timeSlider.value = Float(currentItem.currentTime().seconds)
+        })
+    }
+    
+    @IBAction private func sliderValueChanged(_ sender: UISlider) {
+        player.seek(to: CMTimeMake(value: Int64(sender.value * 1000), timescale: 1000))
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
+        player.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.duration))
     }
     
     @objc private func playerDidFinishPlaying() {
@@ -77,7 +103,6 @@ class ViewController: UIViewController {
     @objc private func videoPlayerDidClicked() {
         // show controls
         decideHidingBottomViewAndPlayPauseButton(state: false)
-
         seconds = 0
     }
     
@@ -93,7 +118,6 @@ class ViewController: UIViewController {
         seconds += 1
     }
 
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
