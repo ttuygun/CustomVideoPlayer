@@ -27,7 +27,6 @@ class ViewController: UIViewController {
     var playRate: Float = 1
     
     var player: AVPlayer!
-    var player2: AVPlayer!
     var playerLayer: AVPlayerLayer!
     var playerLayer2: AVPlayerLayer!
     
@@ -45,17 +44,17 @@ class ViewController: UIViewController {
         let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         player = AVPlayer(url: url)
         
-        player2 = AVPlayer(url: url)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
+        
         videoView.addGestureRecognizer(tap)
         videoView2.addGestureRecognizer(tap2)
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resize
         
-        playerLayer2 = AVPlayerLayer(player: player2)
+        playerLayer2 = AVPlayerLayer(player: player)
         playerLayer2.videoGravity = .resize
         
         videoView.layer.addSublayer(playerLayer)
@@ -93,7 +92,6 @@ class ViewController: UIViewController {
     
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
         player.seek(to: CMTimeMake(value: Int64(sender.value * 1000), timescale: 1000))
-        player2.seek(to: CMTimeMake(value: Int64(sender.value * 1000), timescale: 1000))
     }
     
     deinit {
@@ -148,17 +146,10 @@ class ViewController: UIViewController {
                     self.decideHidingBottomViewAndPlayPauseButton(state: true)
                 }
             }
-            
-            player2.seek(to: .zero) { (completed) in
-                if completed {
-                    self.player2.play()
-                }
-            }
         }
         
         if isVideoPlaying {
             player.pause()
-            player2.pause()
             playPauseButton.setImage(UIImage(named: "play"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
             isVideoPlaying = false
@@ -166,7 +157,6 @@ class ViewController: UIViewController {
             timer?.invalidate()
         } else {
             player.play()
-            player2.play()
             playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             seconds = 0
@@ -186,11 +176,9 @@ class ViewController: UIViewController {
         seconds = 0
         if isVideoMuted {
             player.isMuted = false
-            player2.isMuted = false
             sender.setImage(UIImage(named: "sound"), for: .normal)
         } else {
             player.isMuted = true
-            player2.isMuted = true
             sender.setImage(UIImage(named: "mute"), for: .normal)
         }
         isVideoMuted = !isVideoMuted
@@ -223,13 +211,8 @@ class ViewController: UIViewController {
                 slowerLabel.text = ""
             }
             player.playImmediately(atRate: playRate)
-            player2.playImmediately(atRate: playRate)
             
         }
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        self.view.layoutSubviews()
     }
     
     @IBAction private func slowerButtonClicked(_ sender: UIButton) {
@@ -244,7 +227,6 @@ class ViewController: UIViewController {
                 self.decideHidingBottomViewAndPlayPauseButton(state: true)
                 playRate = 1
                 player.playImmediately(atRate: playRate)
-                player2.playImmediately(atRate: playRate)
                 
             } else if playRate > 1 {
                 playRate /= 2
@@ -255,19 +237,16 @@ class ViewController: UIViewController {
                     fasterLabel.text = "\(playRate)x"
                 }
                 player.playImmediately(atRate: playRate)
-                player2.playImmediately(atRate: playRate)
             } else if playRate < 1 {
                 playRate -= 0.25
                 fasterLabel.text = ""
                 slowerLabel.text = "-\(1 - playRate)x"
                 player.playImmediately(atRate: playRate)
-                player2.playImmediately(atRate: playRate)
             } else if playRate == 1 {
                 playRate = 0.75
                 slowerLabel.text = "-\(1 - playRate)x"
                 fasterLabel.text = ""
                 player.playImmediately(atRate: playRate)
-                player2.playImmediately(atRate: playRate)
             }
             
             print("playRate=\(playRate)")
