@@ -22,8 +22,18 @@
                                 <rect key="frame" x="0.0" y="331.5" width="414" height="233"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7aO-lF-4P7">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="233"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="207" height="233"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="7aO-lF-4P7" secondAttribute="height" multiplier="8:9" id="MAL-wS-xFH"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzf-Es-hFi" userLabel="Video View 2">
+                                        <rect key="frame" x="207" y="0.0" width="207" height="233"/>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="dzf-Es-hFi" secondAttribute="height" multiplier="8:9" id="ByI-pH-nf7"/>
+                                        </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cJY-ZD-rcq">
                                         <rect key="frame" x="177" y="86.5" width="60" height="60"/>
@@ -46,13 +56,13 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OIu-NO-wld">
-                                                            <rect key="frame" x="285" y="0.0" width="124" height="33.5"/>
+                                                            <rect key="frame" x="283.5" y="0.0" width="125.5" height="34"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ApP-YK-cw2">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="25.5" height="33.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="26" height="34"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MY4-I8-vkD">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="25.5" height="8"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="26" height="8"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" secondItem="MY4-I8-vkD" secondAttribute="height" multiplier="4:1.25" id="Rql-aA-vLQ"/>
                                                                             </constraints>
@@ -61,7 +71,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgG-fX-bKO">
-                                                                            <rect key="frame" x="0.0" y="8" width="25.5" height="25.5"/>
+                                                                            <rect key="frame" x="0.0" y="8" width="26" height="26"/>
                                                                             <state key="normal" image="slower"/>
                                                                             <connections>
                                                                                 <action selector="slowerButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6fg-hc-pTJ"/>
@@ -73,10 +83,10 @@
                                                                     </constraints>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="psN-Wm-jp8">
-                                                                    <rect key="frame" x="45.5" y="0.0" width="25" height="33.5"/>
+                                                                    <rect key="frame" x="46" y="0.0" width="25.5" height="34"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2x" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEP-Fb-V1I">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="25" height="8"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="25.5" height="8"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" secondItem="JEP-Fb-V1I" secondAttribute="height" multiplier="4:1.25" id="B1r-5u-dQQ"/>
                                                                             </constraints>
@@ -85,7 +95,7 @@
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jco-g0-K5A">
-                                                                            <rect key="frame" x="0.0" y="8" width="25" height="25.5"/>
+                                                                            <rect key="frame" x="0.0" y="8" width="25.5" height="26"/>
                                                                             <state key="normal" image="faster"/>
                                                                             <connections>
                                                                                 <action selector="fasterButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aeE-py-WQK"/>
@@ -97,7 +107,7 @@
                                                                     </constraints>
                                                                 </stackView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5O-l0-YGg">
-                                                                    <rect key="frame" x="90.5" y="0.0" width="33.5" height="33.5"/>
+                                                                    <rect key="frame" x="91.5" y="0.0" width="34" height="34"/>
                                                                     <state key="normal" image="sound"/>
                                                                     <connections>
                                                                         <action selector="muteButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ieG-T9-GbS"/>
@@ -109,7 +119,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="KFp-NL-AB1">
-                                                            <rect key="frame" x="32" y="0.0" width="250" height="34.5"/>
+                                                            <rect key="frame" x="32" y="0.0" width="248.5" height="35"/>
                                                             <connections>
                                                                 <action selector="sliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Z5k-nZ-t3D"/>
                                                             </connections>
@@ -153,12 +163,16 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="7aO-lF-4P7" firstAttribute="leading" secondItem="bwD-J5-fgy" secondAttribute="leading" id="0rn-Zq-gj4"/>
                                     <constraint firstItem="7aO-lF-4P7" firstAttribute="top" secondItem="bwD-J5-fgy" secondAttribute="top" id="2JT-uV-lC8"/>
                                     <constraint firstItem="cJY-ZD-rcq" firstAttribute="centerX" secondItem="bwD-J5-fgy" secondAttribute="centerX" id="83a-cH-YRh"/>
                                     <constraint firstItem="cJY-ZD-rcq" firstAttribute="centerY" secondItem="bwD-J5-fgy" secondAttribute="centerY" id="8Nf-f7-Yb5"/>
-                                    <constraint firstItem="7aO-lF-4P7" firstAttribute="leading" secondItem="bwD-J5-fgy" secondAttribute="leading" id="Cgo-wG-Qq7"/>
+                                    <constraint firstAttribute="trailing" secondItem="dzf-Es-hFi" secondAttribute="trailing" id="Dk9-cx-eul"/>
                                     <constraint firstAttribute="width" secondItem="bwD-J5-fgy" secondAttribute="height" multiplier="16:9" id="SYn-lP-P5T"/>
-                                    <constraint firstAttribute="trailing" secondItem="7aO-lF-4P7" secondAttribute="trailing" id="nXd-LW-HmM"/>
+                                    <constraint firstItem="7aO-lF-4P7" firstAttribute="top" secondItem="bwD-J5-fgy" secondAttribute="top" id="aaq-eA-1zn"/>
+                                    <constraint firstItem="dzf-Es-hFi" firstAttribute="top" secondItem="bwD-J5-fgy" secondAttribute="top" id="b3j-dL-kxS"/>
+                                    <constraint firstAttribute="bottom" secondItem="dzf-Es-hFi" secondAttribute="bottom" id="lvp-Ty-xqb"/>
+                                    <constraint firstItem="dzf-Es-hFi" firstAttribute="leading" secondItem="7aO-lF-4P7" secondAttribute="trailing" id="nAh-4v-ZPa"/>
                                     <constraint firstAttribute="bottom" secondItem="7aO-lF-4P7" secondAttribute="bottom" id="o0p-w9-gqD"/>
                                     <constraint firstAttribute="bottom" secondItem="ika-2V-678" secondAttribute="bottom" id="r48-S4-sXv"/>
                                     <constraint firstItem="ika-2V-678" firstAttribute="leading" secondItem="bwD-J5-fgy" secondAttribute="leading" id="tRg-rr-Xjs"/>
@@ -183,6 +197,7 @@
                         <outlet property="timeSlider" destination="KFp-NL-AB1" id="FsN-yw-qfF"/>
                         <outlet property="videoPlayerView" destination="bwD-J5-fgy" id="8xP-E5-me2"/>
                         <outlet property="videoView" destination="7aO-lF-4P7" id="f5F-Cr-xGh"/>
+                        <outlet property="videoView2" destination="dzf-Es-hFi" id="dch-hG-OZE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
