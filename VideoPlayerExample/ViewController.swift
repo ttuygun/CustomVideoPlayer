@@ -9,6 +9,13 @@
 import UIKit
 import AVFoundation
 
+enum PlayingState: String {
+    case readyToPlay = "readyToPlay"
+    case playing = "playing"
+    case paused = "paused"
+    case replay = "replay"
+}
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var videoView: UIView!
@@ -30,12 +37,10 @@ class ViewController: UIViewController {
     var playerLayer: AVPlayerLayer!
     var playerLayer2: AVPlayerLayer!
     
-    var isVideoPlaying = false
-    var isVideoMuted = false
-    var isVideoFinished = false
-    
     var timer: Timer?
-    var seconds = 0
+    var seconds: Int = 0
+    
+    var playingState: PlayingState!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +48,6 @@ class ViewController: UIViewController {
         
         let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         player = AVPlayer(url: url)
-        
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
@@ -61,36 +65,44 @@ class ViewController: UIViewController {
         videoView2.layer.addSublayer(playerLayer2)
         
         playPauseButton.alpha = 0.8
-        
+        setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+        resetTimer()
+        playingState = .readyToPlay
+        initObservers()
+    }
+    
+    private func initObservers() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.playerDidFinishPlaying),
+                                               selector: #selector(self.playerDidPlayToEndTime),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
         
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
         
         player.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.duration), options: [.new], context: nil)
         addTimeObserver()
-        
-        fasterLabel.text = ""
-        slowerLabel.text = ""
+    }
+    
+    private func setFasterSlowerLabels(fasterLabel: String, slowerLabel: String) {
+        self.fasterLabel.text = fasterLabel
+        self.slowerLabel.text = slowerLabel
     }
     
     private func addTimeObserver() {
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         let mainQueue = DispatchQueue.main
         player.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue, using: { [weak self] time in
-            print(time)
+            debugPrint(time)
             guard let currentItem = self?.player.currentItem else {
                 return
             }
-            self?.timeSlider.maximumValue = Float(currentItem.duration.seconds)
             self?.timeSlider.minimumValue = 0
+            self?.timeSlider.maximumValue = Float(currentItem.duration.seconds)
             self?.timeSlider.value = Float(currentItem.currentTime().seconds)
         })
     }
     
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
+        resetTimer()
         player.seek(to: CMTimeMake(value: Int64(sender.value * 1000), timescale: 1000))
     }
     
@@ -100,156 +112,135 @@ class ViewController: UIViewController {
         player.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.duration))
     }
     
-    @objc private func playerDidFinishPlaying() {
-        isVideoFinished = true
-        playPauseButton.setImage(UIImage(named: "replay"), for: .normal)
-        playPauseButton.isHidden = false
-        isVideoPlaying = false
-        slowerLabel.text = ""
-        fasterLabel.text = ""
+    @objc private func playerDidPlayToEndTime() {
+        self.playingState = .replay
+        self.handlePlayingStateControls()
+        self.setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+    }
+    
+    private func handlePlayingStateControls() {
+        if playingState == .init(.readyToPlay) {
+            bottomPlayPauseButton.isHidden = false
+            playPauseButton.setImage(UIImage(named: "play"), for: .normal)
+        } else if playingState == .init(.playing) {
+            player.playImmediately(atRate: playRate)
+            playerBottomView.isHidden = false
+            playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
+            bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
+        } else if playingState == .init(.paused) {
+            player.pause()
+            playPauseButton.setImage(UIImage(named: "play"), for: .normal)
+            bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
+        } else if playingState == .init(.replay) {
+            playerBottomView.isHidden = true
+            playPauseButton.setImage(UIImage(named: "replay"), for: .normal)
+            resetTimer()
+        }
+    }
+    
+    private func willHidePlayPauseButtonAndBottomView(state hidingState: Bool) {
+        if playingState == .init(.playing) {
+            playPauseButton.isHidden = hidingState
+            playerBottomView.isHidden = hidingState
+        }
     }
     
     @objc private func videoPlayerDidClicked() {
-        // show controls
-        decideHidingBottomViewAndPlayPauseButton(state: false)
+        resetTimer()
+        willHidePlayPauseButtonAndBottomView(state: false)
+    }
+    
+    private func resetTimer() {
         seconds = 0
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
     
     @objc private func runTimedCode() {
-        print(seconds)
+//        debugPrint(seconds)
         if seconds == 3 {
-            if self.isVideoPlaying {
-                self.decideHidingBottomViewAndPlayPauseButton(state: true)
-                self.seconds = 0
-                self.timer?.invalidate()
+            if playingState == .init(.playing) {
+                self.willHidePlayPauseButtonAndBottomView(state: true)
+                resetTimer()
             }
         }
         seconds += 1
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-//        playerLayer.frame = videoPlayerView.bounds
         
         playerLayer.frame = videoView.bounds
         playerLayer2.frame = videoView2.bounds
     }
 
     @IBAction private func playButtonClicked(_ sender: UIButton) {
-        if isVideoFinished {
+        if playingState == .init(.replay) {
             player.seek(to: .zero) { (completed) in
                 if completed {
-                    self.player.play()
-                    self.isVideoFinished = false
-                    self.isVideoPlaying = true
-                    self.decideHidingBottomViewAndPlayPauseButton(state: true)
+                    self.playingState = .playing
+                    self.handlePlayingStateControls()
                 }
             }
-        }
-        
-        if isVideoPlaying {
-            player.pause()
-            playPauseButton.setImage(UIImage(named: "play"), for: .normal)
-            bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
-            isVideoPlaying = false
-            seconds = 0
-            timer?.invalidate()
-        } else {
-            player.play()
-            playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
-            bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
-            seconds = 0
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
-            isVideoPlaying = true
-        }
-    }
-
-    private func decideHidingBottomViewAndPlayPauseButton(state: Bool) {
-        if isVideoPlaying {
-            self.playPauseButton.isHidden = state
-            self.playerBottomView.isHidden = state
+        } else if playingState == .init(.playing) {
+            playingState = .paused
+            self.handlePlayingStateControls()
+        } else if playingState == .init(.paused) {
+            playingState = .playing
+            self.handlePlayingStateControls()
+            resetTimer()
+        } else if playingState == .init(.readyToPlay) {
+            playingState = .playing
+            self.handlePlayingStateControls()
         }
     }
 
     @IBAction private func muteButtonClicked(_ sender: UIButton) {
-        seconds = 0
-        if isVideoMuted {
-            player.isMuted = false
-            sender.setImage(UIImage(named: "sound"), for: .normal)
-        } else {
-            player.isMuted = true
-            sender.setImage(UIImage(named: "mute"), for: .normal)
-        }
-        isVideoMuted = !isVideoMuted
-        seconds = 0
+        let soundImage = UIImage(named: "sound")
+        let muteImage = UIImage(named: "mute")
+        
+        sender.setImage(player.isMuted ? soundImage: muteImage, for: .normal)
+        player.isMuted = !player.isMuted
+        resetTimer()
     }
     
     @IBAction private func fasterButtonClicked(_ sender: UIButton) {
-        if isVideoPlaying {
-            seconds = 0
-            if playRate >= 8 {
-                playRate = 1
-                slowerLabel.text = ""
-                fasterLabel.text = ""
-            } else if playRate < 1 {
-                playRate += 0.25
-                if playRate == 1 {
-                    slowerLabel.text = ""
-                    fasterLabel.text = ""
-                } else {
-                    slowerLabel.text = "-\(1 - playRate)x"
-                    fasterLabel.text = ""
-                }
-            } else if playRate > 1 {
-                playRate *= 2
-                fasterLabel.text = "\(playRate)x"
-                slowerLabel.text = ""
-            } else if playRate == 1 {
-                playRate *= 2
-                fasterLabel.text = "\(playRate)x"
-                slowerLabel.text = ""
+        resetTimer()
+        if playRate >= 8 {
+            playRate = 1
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+        } else if playRate >= 1 {
+            playRate *= 2
+            setFasterSlowerLabels(fasterLabel: "\(playRate)x", slowerLabel: "")
+        } else if playRate < 1 {
+            playRate += 0.25
+            if playRate == 1 {
+                setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+            } else {
+                setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate)x")
             }
-            player.playImmediately(atRate: playRate)
-            
         }
+        debugPrint("playRate=\(playRate)")
+        handlePlayingStateControls()
     }
     
     @IBAction private func slowerButtonClicked(_ sender: UIButton) {
-        if isVideoPlaying {
-            seconds = 0
-            
-            print(playRate)
-            if playRate <= 0.25 {
-                isVideoPlaying = true
-                slowerLabel.text = ""
-                fasterLabel.text = ""
-                self.decideHidingBottomViewAndPlayPauseButton(state: true)
-                playRate = 1
-                player.playImmediately(atRate: playRate)
-                
-            } else if playRate > 1 {
-                playRate /= 2
-                slowerLabel.text = ""
-                if playRate == 1 {
-                    fasterLabel.text = ""
-                } else {
-                    fasterLabel.text = "\(playRate)x"
-                }
-                player.playImmediately(atRate: playRate)
-            } else if playRate < 1 {
-                playRate -= 0.25
-                fasterLabel.text = ""
-                slowerLabel.text = "-\(1 - playRate)x"
-                player.playImmediately(atRate: playRate)
-            } else if playRate == 1 {
-                playRate = 0.75
-                slowerLabel.text = "-\(1 - playRate)x"
-                fasterLabel.text = ""
-                player.playImmediately(atRate: playRate)
+        resetTimer()
+        if playRate <= 0.25 {
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+            playRate = 1
+        } else if playRate <= 1 {
+            playRate -= 0.25
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate)x")
+        } else if playRate > 1 {
+            playRate /= 2
+            if playRate == 1 {
+                setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+            } else {
+                setFasterSlowerLabels(fasterLabel: "\(playRate)x", slowerLabel: "")
             }
-            
-            print("playRate=\(playRate)")
         }
+        debugPrint("playRate=\(playRate)")
+        handlePlayingStateControls()
     }
 }
