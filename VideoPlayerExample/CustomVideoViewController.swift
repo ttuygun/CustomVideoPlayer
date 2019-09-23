@@ -27,6 +27,7 @@ class CustomVideoViewController: UIViewController {
     var playRate: PlayRate = .x
     
     var player: AVPlayer!
+    var secondPlayer: AVPlayer!
     var playerLayer: AVPlayerLayer!
     var secondPlayerLayer: AVPlayerLayer!
     
@@ -56,12 +57,15 @@ class CustomVideoViewController: UIViewController {
         secondVideoView.addGestureRecognizer(secondTap)
         
         let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
+        let secondURL = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+        
         player = AVPlayer(url: url)
+        secondPlayer = AVPlayer(url: secondURL)
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resize
         
-        secondPlayerLayer = AVPlayerLayer(player: player)
+        secondPlayerLayer = AVPlayerLayer(player: secondPlayer)
         secondPlayerLayer.videoGravity = .resize
         
         videoView.layer.addSublayer(playerLayer)
@@ -96,6 +100,7 @@ class CustomVideoViewController: UIViewController {
                 return
             }
             self?.timeSlider.minimumValue = 0
+            // I assume that first video's duration is smaller than second one.
             self?.timeSlider.maximumValue = Float(currentItem.duration.seconds)
             self?.timeSlider.value = Float(currentItem.currentTime().seconds)
         })
@@ -104,6 +109,7 @@ class CustomVideoViewController: UIViewController {
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
         resetTimer()
         player.seek(to: CMTimeMake(value: Int64(sender.value * videoFPS), timescale: Int32(videoFPS)))
+        secondPlayer.seek(to: CMTimeMake(value: Int64(sender.value * videoFPS), timescale: Int32(videoFPS)))
     }
     
     deinit {
@@ -115,6 +121,8 @@ class CustomVideoViewController: UIViewController {
     @objc private func playerDidPlayToEndTime() {
         self.playingState = .replay
         self.handlePlayingStateControls()
+        // I paused the second player.
+        self.secondPlayer.pause()
         self.setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
     }
     
@@ -129,11 +137,13 @@ class CustomVideoViewController: UIViewController {
             playPauseButton.setImage(playImage, for: .normal)
         case .some(.playing):
             player.playImmediately(atRate: playRate.rawValue)
+            secondPlayer.playImmediately(atRate: playRate.rawValue)
             playerBottomView.isHidden = false
             playPauseButton.setImage(pauseImage, for: .normal)
             bottomPlayPauseButton.setImage(pauseImage, for: .normal)
         case .some(.paused):
             player.pause()
+            secondPlayer.pause()
             playPauseButton.setImage(playImage, for: .normal)
             bottomPlayPauseButton.setImage(playImage, for: .normal)
             timer?.invalidate()
@@ -193,6 +203,7 @@ class CustomVideoViewController: UIViewController {
                     self.handlePlayingStateControls()
                 }
             }
+            secondPlayer.seek(to: .zero)
         case .some(.playing):
             playingState = .paused
             self.handlePlayingStateControls()
