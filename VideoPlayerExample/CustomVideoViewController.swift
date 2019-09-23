@@ -9,27 +9,10 @@
 import UIKit
 import AVFoundation
 
-enum PlayingState: String {
-    case readyToPlay = "readyToPlay"
-    case playing = "playing"
-    case paused = "paused"
-    case replay = "replay"
-}
-
-enum PlayRate: Float {
-    case x8 = 8.0
-    case x4 = 4.0
-    case x2 = 2.0
-    case x = 1.0
-    case x0_25 = 0.25
-    case x0_50 = 0.50
-    case x0_75 = 0.75
-}
-
 class CustomVideoViewController: UIViewController {
     
     @IBOutlet weak var videoView: UIView!
-    @IBOutlet weak var videoView2: UIView!
+    @IBOutlet weak var secondVideoView: UIView!
     @IBOutlet weak var videoPlayerView: UIView!
 
     @IBOutlet weak var playPauseButton: UIButton!
@@ -45,7 +28,7 @@ class CustomVideoViewController: UIViewController {
     
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
-    var playerLayer2: AVPlayerLayer!
+    var secondPlayerLayer: AVPlayerLayer!
     
     var timer: Timer?
     var seconds: Int = 0
@@ -58,11 +41,19 @@ class CustomVideoViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        resetTimer()
+        initLayouts()
+        initObservers()
+        playingState = .readyToPlay
+        setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+    }
+    
+    private func initLayouts() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         
         videoView.addGestureRecognizer(tap)
-        videoView2.addGestureRecognizer(tap2)
+        secondVideoView.addGestureRecognizer(tap2)
         
         let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         player = AVPlayer(url: url)
@@ -70,17 +61,14 @@ class CustomVideoViewController: UIViewController {
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resize
         
-        playerLayer2 = AVPlayerLayer(player: player)
-        playerLayer2.videoGravity = .resize
+        secondPlayerLayer = AVPlayerLayer(player: player)
+        secondPlayerLayer.videoGravity = .resize
         
         videoView.layer.addSublayer(playerLayer)
-        videoView2.layer.addSublayer(playerLayer2)
+        secondVideoView.layer.addSublayer(secondPlayerLayer)
         
         playPauseButton.alpha = 0.8
-        setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
-        resetTimer()
-        playingState = .readyToPlay
-        initObservers()
+        // layout views
     }
     
     private func initObservers() {
@@ -131,22 +119,30 @@ class CustomVideoViewController: UIViewController {
     }
     
     private func handlePlayingStateControls() {
-        if playingState == .init(.readyToPlay) {
+        let playImage = UIImage(named: "play")
+        let pauseImage = UIImage(named: "pause")
+        let replayImage = UIImage(named: "replay")
+        
+        switch playingState {
+        case .some(.readyToPlay):
             bottomPlayPauseButton.isHidden = false
-            playPauseButton.setImage(UIImage(named: "play"), for: .normal)
-        } else if playingState == .init(.playing) {
+            playPauseButton.setImage(playImage, for: .normal)
+        case .some(.playing):
             player.playImmediately(atRate: playRate.rawValue)
             playerBottomView.isHidden = false
-            playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
-            bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
-        } else if playingState == .init(.paused) {
+            playPauseButton.setImage(pauseImage, for: .normal)
+            bottomPlayPauseButton.setImage(pauseImage, for: .normal)
+        case .some(.paused):
             player.pause()
-            playPauseButton.setImage(UIImage(named: "play"), for: .normal)
-            bottomPlayPauseButton.setImage(UIImage(named: "play"), for: .normal)
-        } else if playingState == .init(.replay) {
+            playPauseButton.setImage(playImage, for: .normal)
+            bottomPlayPauseButton.setImage(playImage, for: .normal)
+            timer?.invalidate()
+        case .some(.replay):
             playerBottomView.isHidden = true
-            playPauseButton.setImage(UIImage(named: "replay"), for: .normal)
+            playPauseButton.setImage(replayImage, for: .normal)
             resetTimer()
+        case .none:
+            debugPrint("none")
         }
     }
     
@@ -169,11 +165,11 @@ class CustomVideoViewController: UIViewController {
     }
     
     @objc private func runTimedCode() {
-//        debugPrint(seconds)
+        debugPrint(seconds)
         if seconds > 2 {
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)
-                resetTimer()
+                timer?.invalidate()
             }
         }
         seconds += 1
@@ -183,27 +179,30 @@ class CustomVideoViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         playerLayer.frame = videoView.bounds
-        playerLayer2.frame = videoView2.bounds
+        secondPlayerLayer.frame = secondVideoView.bounds
     }
 
     @IBAction private func playButtonClicked(_ sender: UIButton) {
-        if playingState == .init(.replay) {
+        switch playingState {
+        case .some(.replay):
             player.seek(to: .zero) { (completed) in
                 if completed {
                     self.playingState = .playing
                     self.handlePlayingStateControls()
                 }
             }
-        } else if playingState == .init(.playing) {
+        case .some(.playing):
             playingState = .paused
             self.handlePlayingStateControls()
-        } else if playingState == .init(.paused) {
+        case .some(.paused):
             playingState = .playing
             self.handlePlayingStateControls()
             resetTimer()
-        } else if playingState == .init(.readyToPlay) {
+        case .some(.readyToPlay):
             playingState = .playing
             self.handlePlayingStateControls()
+        case .none:
+            debugPrint("none")
         }
     }
 
@@ -237,10 +236,10 @@ class CustomVideoViewController: UIViewController {
             setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
         case .x0_50:
             playRate = .x0_75
-            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "\(playRate.rawValue)")
         case .x0_25:
             playRate = .x0_50
-            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "\(playRate.rawValue)")
         }
         debugPrint("playRate=\(playRate)")
         handlePlayingStateControls()
@@ -254,13 +253,13 @@ class CustomVideoViewController: UIViewController {
             setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
         case .x:
             playRate = .x0_75
-            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "\(playRate.rawValue)")
         case .x0_75:
             playRate = .x0_50
-            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "\(playRate.rawValue)")
         case .x0_50:
             playRate = .x0_25
-            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "\(playRate.rawValue)")
         case .x2:
             playRate = .x
             setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
