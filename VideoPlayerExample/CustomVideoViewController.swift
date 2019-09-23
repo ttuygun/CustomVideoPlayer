@@ -50,10 +50,10 @@ class CustomVideoViewController: UIViewController {
     
     private func initLayouts() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
-        let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
+        let secondTap = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         
         videoView.addGestureRecognizer(tap)
-        secondVideoView.addGestureRecognizer(tap2)
+        secondVideoView.addGestureRecognizer(secondTap)
         
         let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         player = AVPlayer(url: url)
