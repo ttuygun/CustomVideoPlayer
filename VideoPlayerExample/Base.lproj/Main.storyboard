@@ -193,11 +193,11 @@
                         <outlet property="fasterLabel" destination="JEP-Fb-V1I" id="fbz-5K-rrb"/>
                         <outlet property="playPauseButton" destination="cJY-ZD-rcq" id="IW6-Wu-7Fr"/>
                         <outlet property="playerBottomView" destination="ika-2V-678" id="5Q9-NP-Jz2"/>
+                        <outlet property="secondVideoView" destination="dzf-Es-hFi" id="dch-hG-OZE"/>
                         <outlet property="slowerLabel" destination="MY4-I8-vkD" id="781-TP-tKj"/>
                         <outlet property="timeSlider" destination="KFp-NL-AB1" id="FsN-yw-qfF"/>
                         <outlet property="videoPlayerView" destination="bwD-J5-fgy" id="8xP-E5-me2"/>
                         <outlet property="videoView" destination="7aO-lF-4P7" id="f5F-Cr-xGh"/>
-                        <outlet property="videoView2" destination="dzf-Es-hFi" id="dch-hG-OZE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
