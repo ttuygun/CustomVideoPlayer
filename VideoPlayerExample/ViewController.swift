@@ -16,6 +16,7 @@ enum PlayingState: String {
     case replay = "replay"
 }
 
+//VIEW CONTROLLER IS DEFAULT NAME.. NAME YOUR CLASS PROPERLY
 class ViewController: UIViewController {
     
     @IBOutlet weak var videoView: UIView!
@@ -46,6 +47,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        //EXTRACT METHOD... FROM HERE
         let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         player = AVPlayer(url: url)
         
@@ -63,12 +65,17 @@ class ViewController: UIViewController {
         
         videoView.layer.addSublayer(playerLayer)
         videoView2.layer.addSublayer(playerLayer2)
+        //TO HERE
         
         playPauseButton.alpha = 0.8
         setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
         resetTimer()
         playingState = .readyToPlay
         initObservers()
+        //I DIDN'T ASK FOR IT BUT, IF YOU ADD ELAPSED TIME LABEL
+        //TO THE LEFT OF SLIDER AND REMANING TIME LABEL TO THE RIGHT OF SLIDER
+        //IT WOULD BE NICE
+        
     }
     
     private func initObservers() {
@@ -101,6 +108,9 @@ class ViewController: UIViewController {
         })
     }
     
+    //YOUR SLIDER AS SENSITIVE AS SECONDS OF VIDEO
+    //IT MUST AS SENSITIVE AS CAPTURE EVERY FRAME
+    //FOR EXAMPLE IF VIDEO IS 30 FPS, AND VIDEO LENGTH IS 100 SECONDS YOU HAVE 3000 FRAMES... YOUR SLIDER VALUE CONTAINS 0-3000
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
         resetTimer()
         player.seek(to: CMTimeMake(value: Int64(sender.value * 1000), timescale: 1000))
@@ -119,6 +129,8 @@ class ViewController: UIViewController {
     }
     
     private func handlePlayingStateControls() {
+        //USING ENUM IS GOOD, SWITCH CASE MIGHT BE PRETTIER
+        //ALSO THINKING OF DEVELOPMENT, YOU CAN EXTRACT EVERY CASE TO A FUNC
         if playingState == .init(.readyToPlay) {
             bottomPlayPauseButton.isHidden = false
             playPauseButton.setImage(UIImage(named: "play"), for: .normal)
@@ -157,7 +169,8 @@ class ViewController: UIViewController {
     }
     
     @objc private func runTimedCode() {
-//        debugPrint(seconds)
+        debugPrint(seconds)
+        //THIS CREATES BUG.. CONTROL AS if seconds > 3.0
         if seconds == 3 {
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)
@@ -225,7 +238,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func slowerButtonClicked(_ sender: UIButton) {
+        //LABEL UPDATE ERROR
+        //CODE NEEDS TO BE EXPLAINED
+        
         resetTimer()
+        //DON'T CONTROL BY VALUE... CREATE ENUM...
         if playRate <= 0.25 {
             setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
             playRate = 1
