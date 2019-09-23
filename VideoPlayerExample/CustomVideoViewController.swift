@@ -81,8 +81,6 @@ class CustomVideoViewController: UIViewController {
         resetTimer()
         playingState = .readyToPlay
         initObservers()
-        
-        
     }
     
     private func initObservers() {
