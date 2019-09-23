@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CustomVideoViewController.swift
 //  VideoPlayerExample
 //
 //  Created by rapsodo-mobil-5 on 16.09.2019.
@@ -16,7 +16,17 @@ enum PlayingState: String {
     case replay = "replay"
 }
 
-class ViewController: UIViewController {
+enum PlayRate: Float {
+    case x8 = 8.0
+    case x4 = 4.0
+    case x2 = 2.0
+    case x = 1.0
+    case x0_25 = 0.25
+    case x0_50 = 0.50
+    case x0_75 = 0.75
+}
+
+class CustomVideoViewController: UIViewController {
     
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var videoView2: UIView!
@@ -31,7 +41,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var timeSlider: UISlider!
     
-    var playRate: Float = 1
+    var playRate: PlayRate = .x
     
     var player: AVPlayer!
     var playerLayer: AVPlayerLayer!
@@ -42,18 +52,20 @@ class ViewController: UIViewController {
     
     var playingState: PlayingState!
     
+    let videoFPS: Float = 30.0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
-        player = AVPlayer(url: url)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.videoPlayerDidClicked))
         
         videoView.addGestureRecognizer(tap)
         videoView2.addGestureRecognizer(tap2)
+        
+        let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
+        player = AVPlayer(url: url)
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resize
@@ -69,6 +81,8 @@ class ViewController: UIViewController {
         resetTimer()
         playingState = .readyToPlay
         initObservers()
+        
+        
     }
     
     private func initObservers() {
@@ -91,7 +105,7 @@ class ViewController: UIViewController {
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         let mainQueue = DispatchQueue.main
         player.addPeriodicTimeObserver(forInterval: interval, queue: mainQueue, using: { [weak self] time in
-            debugPrint(time)
+//            debugPrint(time)
             guard let currentItem = self?.player.currentItem else {
                 return
             }
@@ -103,7 +117,7 @@ class ViewController: UIViewController {
     
     @IBAction private func sliderValueChanged(_ sender: UISlider) {
         resetTimer()
-        player.seek(to: CMTimeMake(value: Int64(sender.value * 1000), timescale: 1000))
+        player.seek(to: CMTimeMake(value: Int64(sender.value * videoFPS), timescale: Int32(videoFPS)))
     }
     
     deinit {
@@ -123,7 +137,7 @@ class ViewController: UIViewController {
             bottomPlayPauseButton.isHidden = false
             playPauseButton.setImage(UIImage(named: "play"), for: .normal)
         } else if playingState == .init(.playing) {
-            player.playImmediately(atRate: playRate)
+            player.playImmediately(atRate: playRate.rawValue)
             playerBottomView.isHidden = false
             playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
             bottomPlayPauseButton.setImage(UIImage(named: "pause"), for: .normal)
@@ -158,7 +172,7 @@ class ViewController: UIViewController {
     
     @objc private func runTimedCode() {
 //        debugPrint(seconds)
-        if seconds == 3 {
+        if seconds > 2 {
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)
                 resetTimer()
@@ -206,19 +220,29 @@ class ViewController: UIViewController {
     
     @IBAction private func fasterButtonClicked(_ sender: UIButton) {
         resetTimer()
-        if playRate >= 8 {
-            playRate = 1
+        switch playRate {
+        case .x8:
+            playRate = .x
             setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
-        } else if playRate >= 1 {
-            playRate *= 2
-            setFasterSlowerLabels(fasterLabel: "\(playRate)x", slowerLabel: "")
-        } else if playRate < 1 {
-            playRate += 0.25
-            if playRate == 1 {
-                setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
-            } else {
-                setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate)x")
-            }
+        case .x:
+            playRate = .x2
+            setFasterSlowerLabels(fasterLabel: "\(playRate.rawValue)x", slowerLabel: "")
+        case .x2:
+            playRate = .x4
+            setFasterSlowerLabels(fasterLabel: "\(playRate.rawValue)x", slowerLabel: "")
+        case .x4:
+            playRate = .x8
+            setFasterSlowerLabels(fasterLabel: "\(playRate.rawValue)x", slowerLabel: "")
+        case .x0_75:
+            playRate = .x
+            // If you switch from slower rates to 1, I don't want to show default speed rate in player.
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+        case .x0_50:
+            playRate = .x0_75
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+        case .x0_25:
+            playRate = .x0_50
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
         }
         debugPrint("playRate=\(playRate)")
         handlePlayingStateControls()
@@ -226,19 +250,28 @@ class ViewController: UIViewController {
     
     @IBAction private func slowerButtonClicked(_ sender: UIButton) {
         resetTimer()
-        if playRate <= 0.25 {
+        switch playRate {
+        case .x0_25:
+            playRate = .x
             setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
-            playRate = 1
-        } else if playRate <= 1 {
-            playRate -= 0.25
-            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate)x")
-        } else if playRate > 1 {
-            playRate /= 2
-            if playRate == 1 {
-                setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
-            } else {
-                setFasterSlowerLabels(fasterLabel: "\(playRate)x", slowerLabel: "")
-            }
+        case .x:
+            playRate = .x0_75
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+        case .x0_75:
+            playRate = .x0_50
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+        case .x0_50:
+            playRate = .x0_25
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "-\(1 - playRate.rawValue)x")
+        case .x2:
+            playRate = .x
+            setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+        case .x4:
+            playRate = .x2
+            setFasterSlowerLabels(fasterLabel: "\(playRate)", slowerLabel: "")
+        case .x8:
+            playRate = .x4
+            setFasterSlowerLabels(fasterLabel: "\(playRate)", slowerLabel: "")
         }
         debugPrint("playRate=\(playRate)")
         handlePlayingStateControls()
