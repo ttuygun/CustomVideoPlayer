@@ -141,6 +141,7 @@ class CustomVideoViewController: UIViewController {
             playerBottomView.isHidden = false
             playPauseButton.setImage(pauseImage, for: .normal)
             bottomPlayPauseButton.setImage(pauseImage, for: .normal)
+            resetTimer()
         case .some(.paused):
             player.pause()
             secondPlayer.pause()
