@@ -141,6 +141,7 @@ class CustomVideoViewController: UIViewController {
             playerBottomView.isHidden = false
             playPauseButton.setImage(pauseImage, for: .normal)
             bottomPlayPauseButton.setImage(pauseImage, for: .normal)
+            resetTimer()
         case .some(.paused):
             player.pause()
             secondPlayer.pause()
@@ -179,6 +180,8 @@ class CustomVideoViewController: UIViewController {
         if seconds > 2 {
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)
+                timer?.invalidate()
+            } else if playingState == .init(.readyToPlay) {
                 timer?.invalidate()
             }
         }
