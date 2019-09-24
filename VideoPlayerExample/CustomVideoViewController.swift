@@ -37,6 +37,20 @@ class CustomVideoViewController: UIViewController {
     var playingState: PlayingState!
     
     let videoFPS: Float = 30.0
+        
+//    var firstModel: GolfVideoModel!
+//    var secondModel: GolfVideoModel!
+    
+    var firstModel: GolfVideoFileModel!
+    var secondModel: GolfVideoFileModel!
+    
+    // This variable keep track of first playing time to sync two videos.
+    var firstPlaying = true
+    
+    // player.play()
+    // secondPlayer.play()
+    // In every pause/play tap, `player` go ahead of secondPlayer with increasing delay. This variable keep track of last played player.
+    var firstVideoPlaying = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,11 +70,28 @@ class CustomVideoViewController: UIViewController {
         videoView.addGestureRecognizer(tap)
         secondVideoView.addGestureRecognizer(secondTap)
         
-        let url = URL(string: "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
-        let secondURL = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+        guard let said = Bundle.main.path(forResource: "said", ofType:"mp4") else {
+            return
+        }
         
-        player = AVPlayer(url: url)
-        secondPlayer = AVPlayer(url: secondURL)
+        guard let yigit = Bundle.main.path(forResource: "yigit", ofType:"mp4") else {
+            return
+        }
+        
+        firstModel = GolfVideoFileModel(urlString: yigit,
+                                    shotFrame: 94.0)
+        
+        secondModel = GolfVideoFileModel(urlString: said,
+                                     shotFrame: 90.0)
+        
+//        firstModel = GolfVideoModel(urlString: "https://da6h2esi5ewzl.cloudfront.net/317/20190807_145043223_%2B0300/20190807_145043223_%2B0300.mp4",
+//                                        shotFrame: 94.0)
+//
+//        secondModel = GolfVideoModel(urlString: "https://da6h2esi5ewzl.cloudfront.net/317/20190725_162542_%2B0300/20190725_162542_%2B0300.mp4",
+//                                         shotFrame: 90.0)
+        
+        player = AVPlayer(url: secondModel.url)
+        secondPlayer = AVPlayer(url: firstModel.url)
         
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resize
@@ -84,6 +115,41 @@ class CustomVideoViewController: UIViewController {
         
         player.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.duration), options: [.new], context: nil)
         addTimeObserver()
+    }
+    
+    private func syncTwoVideos() {
+        if firstModel.shotFrame > secondModel.shotFrame {
+            // 1 2  3x 4 5 6
+            // 1 2x 3  4 5 6
+            let diff = CMTime(seconds: firstModel.shotFrame - secondModel.shotFrame,
+                              preferredTimescale: Int32(videoFPS))
+            
+            player.playImmediately(atRate: self.playRate.rawValue)
+            secondPlayer.pause()
+            
+            secondPlayer.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: diff) { (completed) in
+                if completed {
+                    self.secondPlayer.playImmediately(atRate: self.playRate.rawValue)
+                }
+            }
+        } else if secondModel.shotFrame > firstModel.shotFrame {
+            // 1 2x 3  4 5 6
+            // 1 2  3x 4 5 6
+            let diff = CMTime(seconds: secondModel.shotFrame - firstModel.shotFrame,
+                              preferredTimescale: Int32(videoFPS))
+            
+            secondPlayer.playImmediately(atRate: self.playRate.rawValue)
+            player.pause()
+            
+            player.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: diff) { (completed) in
+                if completed {
+                    self.player.playImmediately(atRate: self.playRate.rawValue)
+                }
+            }
+        } else if firstModel.shotFrame == secondModel.shotFrame {
+            player.playImmediately(atRate: self.playRate.rawValue)
+            secondPlayer.playImmediately(atRate: self.playRate.rawValue)
+        }
     }
     
     private func setFasterSlowerLabels(fasterLabel: String, slowerLabel: String) {
@@ -136,8 +202,19 @@ class CustomVideoViewController: UIViewController {
             bottomPlayPauseButton.isHidden = false
             playPauseButton.setImage(playImage, for: .normal)
         case .some(.playing):
-            player.playImmediately(atRate: playRate.rawValue)
-            secondPlayer.playImmediately(atRate: playRate.rawValue)
+            if firstPlaying {
+                syncTwoVideos()
+                firstPlaying = false
+            } else {
+                if firstVideoPlaying {
+                    secondPlayer.playImmediately(atRate: playRate.rawValue)
+                    player.playImmediately(atRate: playRate.rawValue)
+                } else {
+                    player.playImmediately(atRate: playRate.rawValue)
+                    secondPlayer.playImmediately(atRate: playRate.rawValue)
+                }
+                firstVideoPlaying = !firstVideoPlaying
+            }
             playerBottomView.isHidden = false
             playPauseButton.setImage(pauseImage, for: .normal)
             bottomPlayPauseButton.setImage(pauseImage, for: .normal)
@@ -150,8 +227,11 @@ class CustomVideoViewController: UIViewController {
             timer?.invalidate()
         case .some(.replay):
             playerBottomView.isHidden = true
+            playPauseButton.isHidden = false
+            playerBottomView.isHidden = false
             playPauseButton.setImage(replayImage, for: .normal)
             resetTimer()
+//            timer?.invalidate()
         case .none:
             debugPrint("none")
         }
@@ -176,7 +256,7 @@ class CustomVideoViewController: UIViewController {
     }
     
     @objc private func runTimedCode() {
-        debugPrint(seconds)
+//        debugPrint(seconds)
         if seconds > 2 {
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)

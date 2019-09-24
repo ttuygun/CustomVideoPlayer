@@ -13,6 +13,9 @@
 		D5184C19232F7BF4008A2132 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5184C18232F7BF4008A2132 /* Assets.xcassets */; };
 		D5184C1C232F7BF4008A2132 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5184C1A232F7BF4008A2132 /* LaunchScreen.storyboard */; };
 		D51CC9512338F1C300D63F78 /* VideoPlayerEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51CC9502338F1C300D63F78 /* VideoPlayerEnums.swift */; };
+		D5870303233A0DBC000408D8 /* GolfVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5870302233A0DBB000408D8 /* GolfVideoModel.swift */; };
+		D5870306233A5D05000408D8 /* said.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = D5870305233A5BA7000408D8 /* said.mp4 */; };
+		D5870307233A5D05000408D8 /* yigit.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = D5870304233A5BA7000408D8 /* yigit.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		D5184C1B232F7BF4008A2132 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D5184C1D232F7BF4008A2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D51CC9502338F1C300D63F78 /* VideoPlayerEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerEnums.swift; sourceTree = "<group>"; };
+		D5870302233A0DBB000408D8 /* GolfVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GolfVideoModel.swift; sourceTree = "<group>"; };
+		D5870304233A5BA7000408D8 /* yigit.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = yigit.mp4; sourceTree = "<group>"; };
+		D5870305233A5BA7000408D8 /* said.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = said.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,8 @@
 		D5184C10232F7BF3008A2132 /* VideoPlayerExample */ = {
 			isa = PBXGroup;
 			children = (
+				D5870305233A5BA7000408D8 /* said.mp4 */,
+				D5870304233A5BA7000408D8 /* yigit.mp4 */,
 				D5184C11232F7BF3008A2132 /* AppDelegate.swift */,
 				D51CC9502338F1C300D63F78 /* VideoPlayerEnums.swift */,
 				D5184C13232F7BF3008A2132 /* CustomVideoViewController.swift */,
@@ -63,6 +71,7 @@
 				D5184C18232F7BF4008A2132 /* Assets.xcassets */,
 				D5184C1A232F7BF4008A2132 /* LaunchScreen.storyboard */,
 				D5184C1D232F7BF4008A2132 /* Info.plist */,
+				D5870302233A0DBB000408D8 /* GolfVideoModel.swift */,
 			);
 			path = VideoPlayerExample;
 			sourceTree = "<group>";
@@ -125,6 +134,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5870306233A5D05000408D8 /* said.mp4 in Resources */,
+				D5870307233A5D05000408D8 /* yigit.mp4 in Resources */,
 				D5184C1C232F7BF4008A2132 /* LaunchScreen.storyboard in Resources */,
 				D5184C19232F7BF4008A2132 /* Assets.xcassets in Resources */,
 				D5184C17232F7BF3008A2132 /* Main.storyboard in Resources */,
@@ -138,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5870303233A0DBC000408D8 /* GolfVideoModel.swift in Sources */,
 				D5184C14232F7BF3008A2132 /* CustomVideoViewController.swift in Sources */,
 				D51CC9512338F1C300D63F78 /* VideoPlayerEnums.swift in Sources */,
 				D5184C12232F7BF3008A2132 /* AppDelegate.swift in Sources */,
