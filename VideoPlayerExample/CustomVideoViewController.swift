@@ -132,6 +132,7 @@ class CustomVideoViewController: UIViewController {
             playerBottomView.isHidden = false
             playPauseButton.setImage(pauseImage, for: .normal)
             bottomPlayPauseButton.setImage(pauseImage, for: .normal)
+            resetTimer()
         case .some(.paused):
             player.pause()
             playPauseButton.setImage(playImage, for: .normal)
@@ -167,9 +168,9 @@ class CustomVideoViewController: UIViewController {
     @objc private func runTimedCode() {
         debugPrint(seconds)
         if seconds > 2 {
+            timer?.invalidate()
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)
-                timer?.invalidate()
             }
         }
         seconds += 1
