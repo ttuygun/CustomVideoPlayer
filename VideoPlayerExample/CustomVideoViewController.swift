@@ -180,6 +180,8 @@ class CustomVideoViewController: UIViewController {
             if playingState == .init(.playing) {
                 self.willHidePlayPauseButtonAndBottomView(state: true)
                 timer?.invalidate()
+            } else if playingState == .init(.readyToPlay) {
+                timer?.invalidate()
             }
         }
         seconds += 1
