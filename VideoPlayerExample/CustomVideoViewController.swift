@@ -51,6 +51,17 @@ class CustomVideoViewController: UIViewController {
     // secondPlayer.play()
     // In every pause/play tap, `player` go ahead of secondPlayer with increasing delay. This variable keep track of last played player.
     var firstVideoPlaying = false
+    
+    // Drawing variables
+    var lastPoint: CGPoint = .zero
+    var color: UIColor = .red
+    var brushWidth: CGFloat = 5.0
+    
+    // Drawing outlets
+    @IBOutlet weak var imageView: UIImageView!
+    
+    var drawings: [DrawingModel] = []
+//    var drawing: DrawingModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +72,66 @@ class CustomVideoViewController: UIViewController {
         initObservers()
         playingState = .readyToPlay
         setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        lastPoint = touch.location(in: view)
+        debugPrint("touchesBeganPoint=\(lastPoint)")
+        
+        let currentTime = player.currentTime()
+        
+        debugPrint("playerCurrentTime=\(currentTime)")
+        
+    }
+    
+    func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
+        UIGraphicsBeginImageContext(view.frame.size)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            return
+        }
+        imageView.image?.draw(in: view.bounds)
+        
+        context.move(to: fromPoint)
+        context.addLine(to: toPoint)
+        
+        context.setLineCap(.round)
+        context.setLineWidth(brushWidth)
+        context.setStrokeColor(color.cgColor)
+        
+        context.strokePath()
+        
+        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        let currentPoint = touch.location(in: view)
+        drawLine(from: lastPoint, to: currentPoint)
+        
+        let drawing = DrawingModel(startPoint: lastPoint, endPoint: currentPoint, second: player.currentTime().seconds)
+        drawings.append(drawing)
+        
+        lastPoint = currentPoint
+        debugPrint("touchesMovedPoint=\(lastPoint)")
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        debugPrint("touchesEnded")
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToMirror" {
+            let destionation = segue.destination as! MirrorViewController
+            destionation.drawings = drawings
+        }
     }
     
     private func initLayouts() {
