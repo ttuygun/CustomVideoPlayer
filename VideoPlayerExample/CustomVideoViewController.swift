@@ -84,7 +84,8 @@ class CustomVideoViewController: UIViewController {
         let currentTime = player.currentTime()
         
         debugPrint("playerCurrentTime=\(currentTime)")
-        
+       
+    
     }
     
     func drawLine(from fromPoint: CGPoint, to toPoint: CGPoint) {
@@ -130,7 +131,7 @@ class CustomVideoViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToMirror" {
             let destionation = segue.destination as! MirrorViewController
-            destionation.drawings = drawings
+            destionation.reDrawings = drawings
         }
     }
     
@@ -319,13 +320,13 @@ class CustomVideoViewController: UIViewController {
         resetTimer()
         willHidePlayPauseButtonAndBottomView(state: false)
     }
-    
+
     private func resetTimer() {
         seconds = 0
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
-    
+
     @objc private func runTimedCode() {
 //        debugPrint(seconds)
         if seconds > 2 {
@@ -377,9 +378,10 @@ class CustomVideoViewController: UIViewController {
         
         sender.setImage(player.isMuted ? soundImage: muteImage, for: .normal)
         player.isMuted = !player.isMuted
+        secondPlayer.isMuted = !secondPlayer.isMuted
         resetTimer()
     }
-    
+
     @IBAction private func fasterButtonClicked(_ sender: UIButton) {
         resetTimer()
         switch playRate {
@@ -409,7 +411,7 @@ class CustomVideoViewController: UIViewController {
         debugPrint("playRate=\(playRate)")
         handlePlayingStateControls()
     }
-    
+
     @IBAction private func slowerButtonClicked(_ sender: UIButton) {
         resetTimer()
         switch playRate {
