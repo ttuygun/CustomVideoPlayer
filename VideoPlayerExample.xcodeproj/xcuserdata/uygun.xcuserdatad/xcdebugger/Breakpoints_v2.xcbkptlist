@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VideoPlayerExample/CustomVideoViewController.swift"
-            timestampString = "591112898.755161"
+            filePath = "VideoPlayerExample/MirrorViewController.swift"
+            timestampString = "591199541.842068"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "sliderValueChanged(_:)"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "secondPlayButtonClicked(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
