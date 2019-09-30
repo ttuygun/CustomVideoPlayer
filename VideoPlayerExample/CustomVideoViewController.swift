@@ -131,7 +131,7 @@ class CustomVideoViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToMirror" {
             let destionation = segue.destination as! MirrorViewController
-            destionation.reDrawings = drawings
+            destionation.redrawings = drawings
         }
     }
     
@@ -264,7 +264,7 @@ class CustomVideoViewController: UIViewController {
         self.setFasterSlowerLabels(fasterLabel: "", slowerLabel: "")
     }
     
-    private func handlePlayingStateControls() {
+    internal func handlePlayingStateControls() {
         let playImage = UIImage(named: "play")
         let pauseImage = UIImage(named: "pause")
         let replayImage = UIImage(named: "replay")
@@ -321,7 +321,7 @@ class CustomVideoViewController: UIViewController {
         willHidePlayPauseButtonAndBottomView(state: false)
     }
 
-    private func resetTimer() {
+    internal func resetTimer() {
         seconds = 0
         timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
@@ -347,7 +347,7 @@ class CustomVideoViewController: UIViewController {
         secondPlayerLayer.frame = secondVideoView.bounds
     }
 
-    @IBAction private func playButtonClicked(_ sender: UIButton) {
+    @IBAction internal func playButtonClicked(_ sender: UIButton) {
         switch playingState {
         case .some(.replay):
             player.seek(to: .zero) { (completed) in

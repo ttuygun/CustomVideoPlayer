@@ -13,6 +13,7 @@
 		D5184C19232F7BF4008A2132 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5184C18232F7BF4008A2132 /* Assets.xcassets */; };
 		D5184C1C232F7BF4008A2132 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5184C1A232F7BF4008A2132 /* LaunchScreen.storyboard */; };
 		D51CC9512338F1C300D63F78 /* VideoPlayerEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51CC9502338F1C300D63F78 /* VideoPlayerEnums.swift */; };
+		D54083D2234226FB00586C06 /* VideoDrawWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54083D1234226FB00586C06 /* VideoDrawWork.swift */; };
 		D54482AE233B5FA1002B7FB7 /* DrawingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54482AD233B5FA1002B7FB7 /* DrawingModel.swift */; };
 		D54482B0233B7B5F002B7FB7 /* MirrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54482AF233B7B5F002B7FB7 /* MirrorViewController.swift */; };
 		D5870303233A0DBC000408D8 /* GolfVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5870302233A0DBB000408D8 /* GolfVideoModel.swift */; };
@@ -29,6 +30,7 @@
 		D5184C1B232F7BF4008A2132 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D5184C1D232F7BF4008A2132 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D51CC9502338F1C300D63F78 /* VideoPlayerEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerEnums.swift; sourceTree = "<group>"; };
+		D54083D1234226FB00586C06 /* VideoDrawWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDrawWork.swift; sourceTree = "<group>"; };
 		D54482AD233B5FA1002B7FB7 /* DrawingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingModel.swift; sourceTree = "<group>"; };
 		D54482AF233B7B5F002B7FB7 /* MirrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorViewController.swift; sourceTree = "<group>"; };
 		D5870302233A0DBB000408D8 /* GolfVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GolfVideoModel.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				D54482AD233B5FA1002B7FB7 /* DrawingModel.swift */,
 				D5870302233A0DBB000408D8 /* GolfVideoModel.swift */,
+				D54083D1234226FB00586C06 /* VideoDrawWork.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			files = (
 				D5870303233A0DBC000408D8 /* GolfVideoModel.swift in Sources */,
 				D5184C14232F7BF3008A2132 /* CustomVideoViewController.swift in Sources */,
+				D54083D2234226FB00586C06 /* VideoDrawWork.swift in Sources */,
 				D54482AE233B5FA1002B7FB7 /* DrawingModel.swift in Sources */,
 				D51CC9512338F1C300D63F78 /* VideoPlayerEnums.swift in Sources */,
 				D5184C12232F7BF3008A2132 /* AppDelegate.swift in Sources */,

@@ -7,157 +7,75 @@
 //
 
 import UIKit
+import AVFoundation
 
 class MirrorViewController: CustomVideoViewController {
 
-//    var drawings: [DrawingModel] = []
-//
-//    @IBOutlet weak var imageView: UIImageView!
-//
-//    var color: UIColor = .red
-//    var brushWidth: CGFloat = 5.0
-//
-    var buttonPlayingState = true
-//
-//    var timer: Timer?
-    
-    var second: Double = 0
-    var lastDrawIndex = 0
-    
-    var reDrawings: [DrawingModel] = []
-    
-    let semaphore = DispatchSemaphore(value: 1)
+    var redrawings: [DrawingModel] = []
+    var lastPlayedIndex = 0
+
+    var workers: [VideoDrawWork] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        startDrawing()
+        handleDrawing()
+        playingState = .readyToPlay
     }
     
     @IBAction func goBack(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    private func startDrawing() {
-        
-        for drawing in reDrawings {
-            DispatchQueue.main.asyncAfter(deadline: .now() + drawing.second) {
-                self.drawLine(from: drawing.startPoint, to: drawing.endPoint)
-                debugPrint(self.lastDrawIndex)
+    @IBAction override func playButtonClicked(_ sender: UIButton) {
+        switch playingState {
+        case .some(.replay):
+            player.seek(to: .zero) { (completed) in
+                if completed {
+                    self.playingState = .playing
+                    self.handlePlayingStateControls()
+                }
             }
-            
-            DispatchQueue.main.async {
-                
-             
-            }
-            
+            secondPlayer.seek(to: .zero)
+        case .some(.playing):
+            playingState = .paused
+            self.handlePlayingStateControls()
+        case .some(.paused):
+            playingState = .playing
+            self.handlePlayingStateControls()
+            resetTimer()
+        case .some(.readyToPlay):
+            playingState = .playing
+            self.handlePlayingStateControls()
+        case .none:
+            debugPrint("none")
         }
-        
-        debugPrint("drawings Count = \(drawings.count)")
-        
-//        for drawing in drawings {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + drawing.second) {
-//                if self.playingState {
-//                    self.drawLine(from: drawing.startPoint, to: drawing.endPoint)
-//                } else {
-//                    // pause
-//                }
-//            }
-//        }
-        
-//        while lastDrawIndex < drawings.count  {
-//            DispatchQueue.main.asyncAfter(wallDeadline: .now() + self.drawings[lastDrawIndex].second) {
-//                if self.playingState {
-//                    self.drawLine(from: self.drawings[self.lastDrawIndex].startPoint, to: self.drawings[self.lastDrawIndex].endPoint)
-//                    debugPrint(self.lastDrawIndex)
-//                }
-//            }
-//        }
-        
+        handleDrawing()
     }
-    @IBAction func secondPlayButtonClicked(_ sender: UIButton) {
-        let playImage = UIImage(named: "play")
-        let pauseImage = UIImage(named: "pause")
-        sender.setImage(buttonPlayingState ? playImage : pauseImage, for: .normal)
-        
-
-        buttonPlayingState = !buttonPlayingState
-
-      
-        if self.buttonPlayingState {
-            DispatchQueue.main.async {
-                self.semaphore.signal()
+    
+    private func handleDrawing() {
+        switch playingState {
+        case .some(.playing):
+            for i in lastPlayedIndex..<redrawings.count {
+                let drawing = redrawings[i]
+                let worker = VideoDrawWork(delay: drawing.second - player.currentTime().seconds)
+                worker.run {
+                    self.drawLine(from: drawing.startPoint, to: drawing.endPoint)
+                    self.lastPlayedIndex = i
+                }
+                workers.append(worker)
             }
-        } else {
-            DispatchQueue.main.async {
-                self.semaphore.wait()
-            }
+        case .some(.paused):
+            cancelWorkers()
+        default:
+            debugPrint("none")
         }
-        
-        
-//        DispatchQueue.main.async {
-//            print("Kid 1 - wait")
-//            self.semaphore.wait()
-//            print("Kid 1 - wait finished")
-//            sleep(1) // Kid 1 playing with iPad
-//            self.semaphore.signal()
-//            print("Kid 1 - done with iPad")
-//        }
-//        DispatchQueue.main.async {
-//            print("Kid 2 - wait")
-//            self.semaphore.wait()
-//            print("Kid 2 - wait finished")
-//            sleep(1) // Kid 1 playing with iPad
-//            self.semaphore.signal()
-//            print("Kid 2 - done with iPad")
-//        }
-//
-//        DispatchQueue.main.async {
-//            print("Kid 3 - wait")
-//            self.semaphore.wait()
-//            print("Kid 3 - wait finished")
-//            sleep(1) // Kid 1 playing with iPad
-//            self.semaphore.signal()
-//            print("Kid 3 - done with iPad")
-//        }
-//        
     }
     
-
-//    @IBAction func playButtonClicked(_ sender: UIButton) {
-//        let playImage = UIImage(named: "play")
-//        let pauseImage = UIImage(named: "pause")
-//        sender.setImage(playingState ? playImage : pauseImage, for: .normal)
-//        playingState = !playingState
-//        
-//        if !playingState {
-//            // pause
-//            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
-//            
-//        } else {
-//            // play
-//            second = 0
-//            timer?.invalidate()
-//        }
-//        
-//        startDrawing()
-//    }
-//    
-//    @objc private func runTimedCode() {
-//        second += 1
-//    }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func cancelWorkers() {
+        for worker in workers {
+            worker.cancel()
+        }
     }
-    */
-
 }
