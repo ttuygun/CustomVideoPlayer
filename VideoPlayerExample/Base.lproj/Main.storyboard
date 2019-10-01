@@ -186,9 +186,36 @@
                                     <segue destination="Lu1-LU-xbq" kind="show" identifier="goToMirror" id="iy9-As-6u0"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="NO4-Uo-Jis">
+                                <rect key="frame" x="25" y="69" width="49" height="124"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OWm-18-DGu">
+                                        <rect key="frame" x="0.0" y="0.0" width="49" height="30"/>
+                                        <state key="normal" title="Record"/>
+                                        <connections>
+                                            <action selector="recordButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uVj-bO-ROP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgb-e3-vKQ">
+                                        <rect key="frame" x="0.0" y="47" width="32" height="30"/>
+                                        <state key="normal" title="Stop"/>
+                                        <connections>
+                                            <action selector="stopButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dyk-le-Y4I"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYw-sg-LJZ">
+                                        <rect key="frame" x="0.0" y="94" width="30" height="30"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <action selector="playRecordButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vc8-j6-F69"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="NO4-Uo-Jis" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="90W-8m-384"/>
                             <constraint firstItem="ika-2V-678" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="942-ne-4uN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="R35-Rb-b6V" secondAttribute="trailing" constant="25" id="Dyr-Ou-fZ2"/>
                             <constraint firstItem="R35-Rb-b6V" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="MpR-gy-0Ni"/>
@@ -200,6 +227,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1AF-eI-vJ3" secondAttribute="bottom" id="fr7-iN-Gbi"/>
                             <constraint firstItem="bwD-J5-fgy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kUu-fp-miI"/>
                             <constraint firstItem="bwD-J5-fgy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="nMa-5g-9QR"/>
+                            <constraint firstItem="NO4-Uo-Jis" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="sCi-GO-t6b"/>
                             <constraint firstAttribute="bottom" secondItem="ika-2V-678" secondAttribute="bottom" constant="5" id="siE-Wy-GBA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -212,6 +240,7 @@
                         <outlet property="imageView" destination="1AF-eI-vJ3" id="Tpq-s9-cC1"/>
                         <outlet property="playPauseButton" destination="cJY-ZD-rcq" id="IW6-Wu-7Fr"/>
                         <outlet property="playerBottomView" destination="ika-2V-678" id="5Q9-NP-Jz2"/>
+                        <outlet property="recordButton" destination="OWm-18-DGu" id="t7j-fU-chd"/>
                         <outlet property="secondVideoView" destination="dzf-Es-hFi" id="dch-hG-OZE"/>
                         <outlet property="slowerLabel" destination="MY4-I8-vkD" id="781-TP-tKj"/>
                         <outlet property="timeSlider" destination="KFp-NL-AB1" id="FsN-yw-qfF"/>

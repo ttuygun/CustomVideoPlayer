@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D507C64C234329120072941F /* RecordPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D507C64B234329120072941F /* RecordPlayerManager.swift */; };
 		D5184C12232F7BF3008A2132 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5184C11232F7BF3008A2132 /* AppDelegate.swift */; };
 		D5184C14232F7BF3008A2132 /* CustomVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5184C13232F7BF3008A2132 /* CustomVideoViewController.swift */; };
 		D5184C17232F7BF3008A2132 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5184C15232F7BF3008A2132 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D507C64B234329120072941F /* RecordPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordPlayerManager.swift; sourceTree = "<group>"; };
 		D5184C0E232F7BF3008A2132 /* VideoPlayerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoPlayerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5184C11232F7BF3008A2132 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D5184C13232F7BF3008A2132 /* CustomVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVideoViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				D5184C11232F7BF3008A2132 /* AppDelegate.swift */,
+				D5BDA17823438DED00A59BA4 /* Managers */,
 				D54482B6233B8629002B7FB7 /* Controllers */,
 				D54482B5233B860C002B7FB7 /* Models */,
 				D54482B7233B863E002B7FB7 /* Videos */,
@@ -115,6 +118,14 @@
 				D51CC9502338F1C300D63F78 /* VideoPlayerEnums.swift */,
 			);
 			name = Enums;
+			sourceTree = "<group>";
+		};
+		D5BDA17823438DED00A59BA4 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D507C64B234329120072941F /* RecordPlayerManager.swift */,
+			);
+			name = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +208,7 @@
 				D51CC9512338F1C300D63F78 /* VideoPlayerEnums.swift in Sources */,
 				D5184C12232F7BF3008A2132 /* AppDelegate.swift in Sources */,
 				D54482B0233B7B5F002B7FB7 /* MirrorViewController.swift in Sources */,
+				D507C64C234329120072941F /* RecordPlayerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
