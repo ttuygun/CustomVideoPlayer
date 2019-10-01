@@ -62,7 +62,11 @@ class CustomVideoViewController: UIViewController {
     
     var drawings: [DrawingModel] = []
 //    var drawing: DrawingModel?
-
+    
+    // Record
+    @IBOutlet weak var recordButton: UIButton!
+    var recordPlayer: RecordPlayerManager?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -346,7 +350,21 @@ class CustomVideoViewController: UIViewController {
         playerLayer.frame = videoView.bounds
         secondPlayerLayer.frame = secondVideoView.bounds
     }
-
+    
+    @IBAction func recordButtonClicked(_ sender: UIButton) {
+        let record = "record1"
+        recordPlayer = RecordPlayerManager(with: record)
+        recordPlayer?.startRecord()
+    }
+    
+    @IBAction func stopButtonClicked(_ sender: UIButton) {
+        recordPlayer?.stopRecord()
+    }
+    
+    @IBAction func playRecordButtonClicked(_ sender: UIButton) {
+        recordPlayer?.playRecord()
+    }
+    
     @IBAction internal func playButtonClicked(_ sender: UIButton) {
         switch playingState {
         case .some(.replay):
